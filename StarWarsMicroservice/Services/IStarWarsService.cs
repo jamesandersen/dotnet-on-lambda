@@ -7,6 +7,7 @@ namespace StarWarsMicroservice.Services
     public interface IStarWarsService
     {
         Task<IEnumerable<Character>> GetCharacters(int limit = 5);
-        Task<IEnumerable<Quote>> SearchQuotes(string query);
+        Task<IEnumerable<Character>> SearchCharacters(string query);
+        Task<Character> CreateCharacter(Character character);
     }
 }

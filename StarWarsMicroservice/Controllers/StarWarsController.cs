@@ -19,7 +19,7 @@ namespace StarWarsMicroservice.Controllers
             _logger = logger;
         }
 
-        // GET api/values
+        // GET api/starwars/characters?limit=5
         [HttpGet("characters")]
         public async Task<IEnumerable<Character>> GetCharacters(int limit = 5)
         {
@@ -27,22 +27,25 @@ namespace StarWarsMicroservice.Controllers
             return await _starWarsService.GetCharacters(limit);
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
+        // GET api/starwars/characters/search/skywalker
+        [HttpGet("characters/search/{query}")]
+        public async Task<IEnumerable<Character>> SearchCharacters(string query)
         {
+            _logger.LogDebug("Search for characters like '{0}'", query);
+            return await _starWarsService.SearchCharacters(query);
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        // POST api/starwars/characters
+        [HttpPost("characters")]
+        public async Task<ActionResult> CreateCharacter([FromBody]Character newCharacter)
         {
-        }
+            if (newCharacter == null || string.IsNullOrEmpty(newCharacter.Name)) {
+                return BadRequest("Invalid star wars character data");
+            }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            _logger.LogDebug("Creating character for '{0}'", newCharacter.Name);
+            var createdCharacter = await _starWarsService.CreateCharacter(newCharacter);
+            return Ok(createdCharacter);
         }
     }
 }

@@ -7,12 +7,15 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace StarWarsMicroservice.Services
 {
     public class FakeStarWarsService : IStarWarsService
     {
         static List<Character> characters;
+        ILogger<FakeStarWarsService> _logger;
+
         static FakeStarWarsService()
         {
             var serializer = new JsonSerializer();
@@ -23,14 +26,26 @@ namespace StarWarsMicroservice.Services
             }
         }
 
+        public FakeStarWarsService(ILogger<FakeStarWarsService> logger) {
+            _logger = logger;
+        }
+
         public Task<IEnumerable<Character>> GetCharacters(int limit = 5)
         {
             return Task.FromResult(characters.Take(limit));
         }
 
-        public Task<IEnumerable<Quote>> SearchQuotes(string query)
+        public Task<IEnumerable<Character>> SearchCharacters(string query)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(characters.Where(c => 
+                c.Name.ToLower().Contains(query.ToLower())));
+        }
+
+        public Task<Character> CreateCharacter(Character newCharacter)
+        {
+            _logger.LogWarning("{0} not created because this is a fake service :-)", newCharacter.Name);
+            newCharacter.Url = string.Format("http://swapi.co/api/people/{0}/", new Random().Next() + 10000);
+            return Task.FromResult(newCharacter);
         }
 
         private static Stream GetEmbeddedJSONResource(string filename)
