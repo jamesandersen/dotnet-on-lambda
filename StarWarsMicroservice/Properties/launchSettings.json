@@ -11,7 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/starwars/characters",
+      "launchUrl": "api/starwars/characters/search/skywalker",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -19,7 +19,7 @@
     "StarWarsMicroservices": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5000/api/starwars/characters",
+      "launchUrl": "http://localhost:5000/api/starwars/characters/search/skywalker",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -1,14 +1,13 @@
-# Welcome to ASP.NET Core
+# ASP.NET Core and AWS Lambda
+This repository is a simple starter focused on demonstrating how to run an asp.net core microservice API in the [AWS Lambda](https://aws.amazon.com/lambda/) environment
 
-## This application consists of:
+## This repository consists of:
 
-*   A very simple controller representing our Microservice API
-*   A companion test project
+*   A sample microservice API providing a selection of data from [the Star Wars API](https://swapi.co/).
+    * `GET /api/starwars/characters?limit=5`
+    * `GET /api/starwars/characters/search/skywalker`
+    * `POST /api/starwars/characters` with a JSON body like this `{ "name": "Harry Skywalker", "eye_color": "blue" }`
+*   A companion unit test project
 
-## Run & Deploy
-
-*   [Run your app](https://go.microsoft.com/fwlink/?LinkID=517851)
-*   [Run tools such as EF migrations and more](https://go.microsoft.com/fwlink/?LinkID=517853)
-*   [Publish to Microsoft Azure Web Apps](https://go.microsoft.com/fwlink/?LinkID=398609)
-
-We would love to hear your [feedback](https://go.microsoft.com/fwlink/?LinkId=518015)
+## The starter guide consists of the following steps
+1.  [Prerequisites, Clone, Restore and Run](STEP1.md)
