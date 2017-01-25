@@ -1,0 +1,26 @@
+{
+  "version": "1.0.1-*",
+  "testRunner": "xunit",
+  "frameworks": {
+    "netcoreapp1.1": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "version": "1.0.3",
+          "type": "platform"
+        }
+      },
+      "imports": [
+          "portable-net451+win8",
+          "dnxcore50"
+      ]
+    }
+  },
+  "dependencies": {
+    "xunit":"2.1.0",
+    "Moq": "4.6.36-*",
+    "dotnet-test-xunit": "1.0.0-*",
+    "StarWarsMicroservice": {
+        "target": "project"
+    }
+  }
+}
