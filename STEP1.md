@@ -1,7 +1,8 @@
 ## Prequisites
-This guide will assume you are already somewhat comfortable with [Git](https://git-scm.com/) and have the command line tools for dotnet core and AWS installed.
-Here's what needs to be in place before you proceed:
+This guide will assume you are already somewhat comfortable with [Git](https://git-scm.com/) and have the command line tools for dotnet core and AWS installed. Here's what needs to be in place before you proceed:
+
 1. **Install [.NET Core](https://www.microsoft.com/net/core)** - Double check that `dotnet --info` runs successfully.  You should see some output similar to this:
+
     ```
     jandersen-mbp15r:dotnet-on-lambda jandersen$ dotnet --info
     .NET Command Line Tools (1.0.0-preview2-1-003177)
@@ -18,6 +19,7 @@ Here's what needs to be in place before you proceed:
     ```
 2. **[Install](http://docs.aws.amazon.com/cli/latest/userguide/installing.html) and [Configure](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) the [AWS Command Line Interface](https://aws.amazon.com/cli/)** -  
     Double check that `aws iam get-user` runs successfully.  You should see some output similar to this (obviously this is sanitized a bit):
+    
     ```
     USER	arn:aws:iam::999999999999:user/jandersen	2017-01-03T05:17:17Z	2017-01-25T03:11:30Z	/	AAAAAAAAAAAAAAAA	jandersen
     ```
