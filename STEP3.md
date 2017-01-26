@@ -22,11 +22,11 @@
             ```
         * **Handler Property Must Match Your App** - If you're following along with this guide precisely you shouldn't need to adjust this line.  However, if you're adapting an existing project or otherwise tweaking, you may need to adjust this to properly reference the Lambda entrypoint to your application:
             ```
-            # The syntax here is <AssemblyName>::<Your.Namespace.ClassName>::<MethodName>
+            # The syntax is <AssemblyName>::<Your.Namespace.ClassName>::<MethodName>
             
             Handler: StarWarsMicroservice::StarWarsMicroservice.LambdaGateway::FunctionHandlerAsync
             ```
-        * **Notice the Code URI** - When we use the `aws` CLI to package up our app this specifies where it'll pull the compiled assemblies from.  Notice that this matches the directory to which our API was published previously.  If you specified a different publish directory than the default, update this line of the template accordingly.
+        * **Notice the Code URI** - When we use the `aws` CLI to package up our app this specifies where it'll pull the compiled assemblies from.  Notice that this matches the directory, relative to the template file, to which our API was published previously.  If you specified a different publish directory than the default, update this line of the template accordingly.
 
             ```
             CodeUri: ./bin/Debug/netcoreapp1.0/publish
@@ -35,48 +35,41 @@
 
             ```
             Events:
-            StarWarsGetResource:
-            Type: Api
-            Properties:
-                Path: /api/starwars/{proxy+}
-                Method: GET
-            StarWarsPostResource:
-            Type: Api
-            Properties:
-                Path: /api/starwars/{proxy+}
-                Method: POST
+                StarWarsGetResource:
+                    Type: Api
+                    Properties:
+                        Path: /api/starwars/{proxy+}
+                        Method: GET
+                StarWarsPostResource:
+                    Type: Api
+                    Properties:
+                        Path: /api/starwars/{proxy+}
+                        Method: POST
             ```
 
-4. **Create the Cloud Formation Package** - Now we'll use [`aws cloudformation package`](http://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html) to transform our SAM template **AND** upload a deployment package for our Lambda function to the S3 bucket created previously:
+4. **Create the Cloud Formation Package** - Now we'll use [`aws cloudformation package`](http://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html) to transform our SAM template **AND** upload a deployment package for our Lambda function to the S3 bucket created previously.  From the root of the repository:
     ```
-    aws cloudformation package --template-file StarWarsMicroservice/starwars-api-template.yml \
-                                --output-template-file StarWarsMicroservice/serverless-output.yaml \
-                                --s3-bucket starwars-api-lambda
+    bash-3.2$ bash-3.2$ aws cloudformation package --template-file StarWarsMicroservice/starwars-api-template.yml \
+                                                    --output-template-file StarWarsMicroservice/serverless-output.yaml \
+                                                    --s3-bucket starwars-api-lambda
     ```
-    *This command assumes our current working directory is still the root of the repository.*
 
-5. **Use our Generated Cloud Formation template to Deploy to AWS** - Now we'll use [`aws cloudformation deploy`](http://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html) to transform our SAM template **AND** upload a deployment package for our Lambda function to the S3 bucket created previously:
+5. **Use our Generated Cloud Formation template to Deploy to AWS** - Now we'll use [`aws cloudformation deploy`](http://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/index.html) to actually **create** the AWS API Gateway and Lambda function using the generated template at the Lambda package with our microservice that was uploaded to S3 in the previous step.  Again from the root of our repository:
     ```
-    aws cloudformation deploy --template-file StarWarsMicroservice/serverless-output.yaml \
-                                --stack-name starwars-api 
-                                --capabilities CAPABILITY_IAM
+    bash-3.2$ aws cloudformation deploy --template-file StarWarsMicroservice/serverless-output.yaml \
+                                        --stack-name starwars-api 
+                                        --capabilities CAPABILITY_IAM
     ```
-    *This command assumes our current working directory is still the root of the repository.*
 
-6. **Check the Deployment** - Let's now make sure our API is up.  <span style="color: red">The first request to the endpoint will incur the cost of "warming up"/initializing the lambda function; it will be slow!</span>.  
-    * Find the ID of the API that has been created as part of our stack: `aws apigateway get-rest-apis`
-    * The API endpoint should be in the format: `https://<API_ID>.execute-api.us-west-2.amazonaws.com/Prod/`
-        
-        For those on a bash shell with `curl` try this out.
-
-        ```
-        API_ID=$(aws apigateway get-rest-apis | grep starwars | cut -f3)
-        echo "https://$API_ID.execute-api.us-west-2.amazonaws.com/Stage/api/starwars/characters/search/Vader" | xargs curl
-        ```
-    * ... should get us to Darth Vader...
+6. **Check the Deployment** - Let's now make sure our API is up.  The **first** request to the endpoint will incur the cost of "warming up"/initializing the lambda function; <span style="color: red">**it will be slow!**</span>. Subsequent requests should be significantly faster<sup>2</sup>. 
+    * Find the **ID** of the API that has been created as part of our stack using the command line: `aws apigateway get-rest-apis`
+    * The API endpoint should be in the format: `https://<YOUR_API_ID>.execute-api.us-west-2.amazonaws.com/Prod/`.  You should also be able to see it in the [AWS API Gateway Console](https://console.aws.amazon.com/apigateway/home) (make sure you're signed in).
+    * Try hitting your endpoint in a browser.   For example <pre>https://<span style="color:red">&lt;YOUR_API_ID&gt;</span>.execute-api.us-west-2.amazonaws.com/Prod/api/starwars/characters/search/Vader</pre> should get us to Darth Vader...
         
         ```
         [{"name":"Darth Vader","url":"http://swapi.co/api/people/4/","eye_color":"yellow","birth_year":"41.9BBY"}]
         ```
 
-**1** - There appears to be support for the value `ANY` e.g. `Method: ANY`, however, I found this to cause issues when deploying the stack to AWS.  I'm not yet sure what the root cause was but it resulted requests to the endpoint triggering a permission error when trying to invoke the Lambda function.
+### Footnotes
+1. There appears to be support for the value `ANY` e.g. `Method: ANY`, however, I found this to cause issues when deploying the stack to AWS.  I'm not yet sure what the root cause was but it resulted requests to the endpoint triggering a permission error when trying to invoke the Lambda function.
+2. Refer to the [AWS forums](https://forums.aws.amazon.com/thread.jspa?threadID=181348) for further discussion of dealing with cold start time.
