@@ -55,5 +55,11 @@
 
   "tooling": {
     "defaultNamespace": "StarWarsMicroservice"
+  },
+  "scripts": {
+    "postpublish": [
+      "aws cloudformation package --template-file starwars-api-template.yml --output-template-file serverless-output.yaml --s3-bucket starwars-api-lambda",
+      "aws cloudformation deploy --template-file serverless-output.yaml --stack-name starwars-api --capabilities CAPABILITY_IAM"
+    ]
   }
 }
