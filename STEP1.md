@@ -1,6 +1,6 @@
 ## Prequisites
-This guide will assume you are already somewhat comfortable with [Git](https://git-scm.com/) and have the command line tools for dotnet core and AWS installed.
-Here's what needs to be in place before you proceed:
+This guide will assume you are already somewhat comfortable with [Git](https://git-scm.com/) and have the command line tools for dotnet core and AWS installed. Here's what needs to be in place before you proceed:
+
 1. **Install [.NET Core](https://www.microsoft.com/net/core)** - Double check that `dotnet --info` runs successfully.  You should see some output similar to this:
 
     ```
@@ -65,4 +65,12 @@ Browse to http://localhost:5000/api/starwars/characters/search/skywalker and ver
     {"name":"Anakin Skywalker","url":"http://swapi.co/api/people/11/","eye_color":"blue","birth_year":"41.9BBY"},
     {"name":"Shmi Skywalker","url":"http://swapi.co/api/people/43/","eye_color":"brown","birth_year":"72BBY"}
 ]
+<<<<<<< HEAD
 ```
+=======
+```
+
+## A Few Notes
+* **Why Not .NET Core 1.1.x?** - AWS Lambda supports the latest *LTS* version which is 1.0.3 (at present); see [this discussion](https://github.com/aws/aws-lambda-dotnet/issues/36) for more information.
+* **Why Not Start With `dotnet new -t web`?** - The starter project created by `dotnet new -t web` includes a lot of front end code that is unrelated to a microservice API.  This repo strips down to the most relevant code for the purpose of the guide.
+>>>>>>> 04b01a409dc5fc4576fa70e2780d26628380839e
