@@ -23,7 +23,7 @@ namespace StarWarsMicroservice.Controllers
         [HttpGet("characters")]
         public async Task<IEnumerable<Character>> GetCharacters(int limit = 5)
         {
-            _logger.LogDebug("Get {0} characters", limit);
+            _logger.LogDebug($"Get {limit} characters");
             return await _starWarsService.GetCharacters(limit);
         }
 
@@ -31,7 +31,7 @@ namespace StarWarsMicroservice.Controllers
         [HttpGet("characters/search/{query}")]
         public async Task<IEnumerable<Character>> SearchCharacters(string query)
         {
-            _logger.LogDebug("Search for characters like '{0}'", query);
+            _logger.LogDebug($"Search for characters like '{query}'");
             return await _starWarsService.SearchCharacters(query);
         }
 
@@ -43,7 +43,7 @@ namespace StarWarsMicroservice.Controllers
                 return BadRequest("Invalid star wars character data");
             }
 
-            _logger.LogDebug("Creating character for '{0}'", newCharacter.Name);
+            _logger.LogDebug($"Creating character for '{newCharacter.Name}'");
             var createdCharacter = await _starWarsService.CreateCharacter(newCharacter);
             return Ok(createdCharacter);
         }
