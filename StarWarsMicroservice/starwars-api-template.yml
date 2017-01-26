@@ -18,12 +18,7 @@ Resources:
           Type: Api
           Properties:
             Path: /api/starwars/{proxy+}
-            Method: GET
-        StarWarsPostResource:
-          Type: Api
-          Properties:
-            Path: /api/starwars/{proxy+}
-            Method: POST
+            Method: ANY
       Environment:
         Variables:
             THE_FORCE: "is with you"

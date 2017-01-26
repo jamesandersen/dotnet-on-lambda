@@ -31,7 +31,7 @@
             ```
             CodeUri: ./bin/Debug/netcoreapp1.0/publish
             ```
-        * **Events Become API Gateway Resources** - The objects defined under "Events" are what will trigger your lambda function.  In our case we are defining API endpoints, hence `Type: Api`.   The `Path: /api/starwars/{proxy+}` means that any endpoint hitting the AWS API gateway matching `/api/starwars/*` will be forwarded on to our Lambda Function.   We want both `GET` and `POST` to reach our API<sup>1</sup>.  
+        * **Events Become API Gateway Resources** - The objects defined under "Events" are what will trigger your lambda function.  In our case we are defining API endpoints, hence `Type: Api`.   The `Path: /api/starwars/{proxy+}` means that any endpoint hitting the AWS API gateway matching `/api/starwars/*` will be forwarded on to our Lambda Function.   We want both `GET` and `POST` to reach our API.  
 
             ```
             Events:
@@ -39,12 +39,7 @@
                     Type: Api
                     Properties:
                         Path: /api/starwars/{proxy+}
-                        Method: GET
-                StarWarsPostResource:
-                    Type: Api
-                    Properties:
-                        Path: /api/starwars/{proxy+}
-                        Method: POST
+                        Method: ANY
             ```
 
 4. **Create the Cloud Formation Package** - Now we'll use [`aws cloudformation package`](http://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html) to transform our SAM template **AND** upload a deployment package for our Lambda function to the S3 bucket created previously.  From the root of the repository:
@@ -61,7 +56,7 @@
                                         --capabilities CAPABILITY_IAM
     ```
 
-6. **Check the Deployment** - Let's now make sure our API is up.  The **first** request to the endpoint will incur the cost of "warming up"/initializing the lambda function; <span style="color: red">**it will be slow!**</span>. Subsequent requests should be significantly faster<sup>2</sup>. 
+6. **Check the Deployment** - Let's now make sure our API is up.  The **first** request to the endpoint will incur the cost of "warming up"/initializing the lambda function; <span style="color: red">**it will be slow!**</span>. Subsequent requests should be significantly faster<sup>1</sup>. 
     * Find the **ID** of the API that has been created as part of our stack using the command line: `aws apigateway get-rest-apis`
     * The API endpoint should be in the format: `https://<YOUR_API_ID>.execute-api.us-west-2.amazonaws.com/Prod/`.  You should also be able to see it in the [AWS API Gateway Console](https://console.aws.amazon.com/apigateway/home) (make sure you're signed in).
     * Try hitting your endpoint in a browser.   For example <pre>https://<span style="color:red">&lt;YOUR_API_ID&gt;</span>.execute-api.us-west-2.amazonaws.com/Prod/api/starwars/characters/search/Vader</pre> should get us to Darth Vader...
@@ -71,5 +66,4 @@
         ```
 
 ### Footnotes
-1. There appears to be support for the value `ANY` e.g. `Method: ANY`, however, I found this to cause issues when deploying the stack to AWS.  I'm not yet sure what the root cause was but it resulted requests to the endpoint triggering a permission error when trying to invoke the Lambda function.
-2. Refer to the [AWS forums](https://forums.aws.amazon.com/thread.jspa?threadID=181348) for further discussion of dealing with cold start time.
+1. Refer to the [AWS forums](https://forums.aws.amazon.com/thread.jspa?threadID=181348) for further discussion of dealing with cold start time.
