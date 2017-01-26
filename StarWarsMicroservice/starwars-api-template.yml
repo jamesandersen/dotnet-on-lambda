@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Build AWS stack to expose Star Wars microservice API through API Gateway and run on Lambda
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  SECData:
+    Type: AWS::Serverless::Function
+    Description: Star Wars Microservice API
+    Properties:
+      Handler: StarWarsMicroservice::StarWarsMicroservice.LambdaGateway::FunctionHandlerAsync
+      Runtime: dotnetcore1.0
+      CodeUri: ./bin/Debug/netcoreapp1.0/publish
+      MemorySize: 128
+      Timeout: 30
+      Policies:
+        - AWSLambdaBasicExecutionRole
+      Events:
+        StarWarsGetResource:
+          Type: Api
+          Properties:
+            Path: /api/starwars/{proxy+}
+            Method: GET
+        StarWarsPostResource:
+          Type: Api
+          Properties:
+            Path: /api/starwars/{proxy+}
+            Method: POST
+      Environment:
+        Variables:
+            THE_FORCE: "is with you"

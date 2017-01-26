@@ -12,3 +12,4 @@ This repository is a simple starter focused on demonstrating how to run an asp.n
 ## The starter guide consists of the following steps
 1.  [Prerequisites, Clone, Restore and Run](STEP1.md)
 2.  [Prepare our API to be deployed to AWS Lambda](STEP2.md)
+3.  [Deployment to AWS](STEP3.md)
