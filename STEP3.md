@@ -45,7 +45,7 @@
                 Path: /api/starwars/{proxy+}
                 Method: POST
             ```
-            
+
 4. **Create the Cloud Formation Package** - Now we'll use [`aws cloudformation package`](http://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html) to transform our SAM template **AND** upload a deployment package for our Lambda function to the S3 bucket created previously:
     ```
     aws cloudformation package --template-file StarWarsMicroservice/starwars-api-template.yml \
@@ -62,5 +62,19 @@
     ```
     *This command assumes our current working directory is still the root of the repository.*
 
+6. **Check the Deployment** - Let's now make sure our API is up.  <span style="color: red">The first request to the endpoint will incur the cost of "warming up"/initializing the lambda function; it will be slow!</span>.  
+    * Find the ID of the API that has been created as part of our stack: `aws apigateway get-rest-apis`
+    * The API endpoint should be in the format: `https://<API_ID>.execute-api.us-west-2.amazonaws.com/Prod/`
+        
+        For those on a bash shell with `curl` try this out.
+
+        ```
+        API_ID=$(aws apigateway get-rest-apis | grep starwars | cut -f3)
+        echo "https://$API_ID.execute-api.us-west-2.amazonaws.com/Stage/api/starwars/characters/search/Vader" | xargs curl
+        ```
+    * ... should get us to Darth Vader...
+        ```
+        [{"name":"Darth Vader","url":"http://swapi.co/api/people/4/","eye_color":"yellow","birth_year":"41.9BBY"}]
+        ```
 
 **1** - There appears to be support for the value `ANY` e.g. `Method: ANY`, however, I found this to cause issues when deploying the stack to AWS.  I'm not yet sure what the root cause was but it resulted requests to the endpoint triggering a permission error when trying to invoke the Lambda function.
