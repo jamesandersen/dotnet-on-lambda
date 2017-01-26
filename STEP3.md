@@ -15,6 +15,7 @@
     * Create a [starwars-api-template.yml](StarWarsMicroservice/starwars-api-template.yml) inside the `StarWarsMicroservice/` directory
     * Follow [the link](StarWarsMicroservice/starwars-api-template.yml) to get the contents of the file.  Here are a few things to point out:
         * **The SAM Transformation** - The following property triggers the transformation form SAM syntax to standard cloud formation syntax:
+
             ```
             Transform: AWS::Serverless-2016-10-31
             ```
@@ -25,10 +26,12 @@
             Handler: StarWarsMicroservice::StarWarsMicroservice.LambdaGateway::FunctionHandlerAsync
             ```
         * **Notice the Code URI** - When we use the `aws` CLI to package up our app this specifies where it'll pull the compiled assemblies from.  Notice that this matches the directory to which our API was published previously.  If you specified a different publish directory than the default, update this line of the template accordingly.
+
             ```
             CodeUri: ./bin/Debug/netcoreapp1.0/publish
             ```
         * **Events Become API Gateway Resources** - The objects defined under "Events" are what will trigger your lambda function.  In our case we are defining API endpoints, hence `Type: Api`.   The `Path: /api/starwars/{proxy+}` means that any endpoint hitting the AWS API gateway matching `/api/starwars/*` will be forwarded on to our Lambda Function.   We want both `GET` and `POST` to reach our API<sup>1</sup>.  
+
             ```
             Events:
             StarWarsGetResource:
@@ -42,6 +45,7 @@
                 Path: /api/starwars/{proxy+}
                 Method: POST
             ```
+            
 4. **Create the Cloud Formation Package** - Now we'll use [`aws cloudformation package`](http://docs.aws.amazon.com/cli/latest/reference/cloudformation/package.html) to transform our SAM template **AND** upload a deployment package for our Lambda function to the S3 bucket created previously:
     ```
     aws cloudformation package --template-file StarWarsMicroservice/starwars-api-template.yml \
