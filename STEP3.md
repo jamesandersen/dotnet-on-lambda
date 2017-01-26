@@ -1,6 +1,7 @@
 ## Deployment to AWS
 
 1. **Prepare an S3 bucket** - The code for our Lambda Function will live in an S3 bucket.  Run the following command (make sure your AWS account has permissions to create a new S3 bucket) and look for output similar to the following:
+    
     ```
     bash-3.2$ aws s3 mb s3://starwars-api-lambda
     make_bucket: starwars-api-lambda
@@ -73,6 +74,7 @@
         echo "https://$API_ID.execute-api.us-west-2.amazonaws.com/Stage/api/starwars/characters/search/Vader" | xargs curl
         ```
     * ... should get us to Darth Vader...
+        
         ```
         [{"name":"Darth Vader","url":"http://swapi.co/api/people/4/","eye_color":"yellow","birth_year":"41.9BBY"}]
         ```
