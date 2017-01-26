@@ -4,7 +4,7 @@ This guide will assume you are already somewhat comfortable with [Git](https://g
 1. **Install [.NET Core](https://www.microsoft.com/net/core)** - Double check that `dotnet --info` runs successfully.  You should see some output similar to this:
 
     ```
-    jandersen-mbp15r:dotnet-on-lambda jandersen$ dotnet --info
+    bash-3.2$ dotnet --info
     .NET Command Line Tools (1.0.0-preview2-1-003177)
 
     Product Information:
@@ -17,13 +17,16 @@ This guide will assume you are already somewhat comfortable with [Git](https://g
     OS Platform: Darwin
     RID:         osx.10.12-x64
     ```
-2. **[Install](http://docs.aws.amazon.com/cli/latest/userguide/installing.html) and [Configure](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) the [AWS Command Line Interface](https://aws.amazon.com/cli/)** -  
-    Double check that `aws iam get-user` runs successfully.  You should see some output similar to this (obviously this is sanitized a bit):
-    
+2. **[Install](http://docs.aws.amazon.com/cli/latest/userguide/installing.html) and [Configure](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) the [AWS Command Line Interface](https://aws.amazon.com/cli/)** -  Note that your account should have permissions to create/manage S3 buckets, API Gateway resources and Lambda Functions in order to complete this guide.  Double check that `aws iam get-user` runs successfully.  You should see some output similar to this:
+
     ```
+    # This is obviously sanitized a bit...
     USER	arn:aws:iam::999999999999:user/jandersen	2017-01-03T05:17:17Z	2017-01-25T03:11:30Z	/	AAAAAAAAAAAAAAAA	jandersen
     ```
-3. **Clone [this repo](https://github.com/jamesandersen/dotnet-on-lambda)** - The rest of the guide will assume you're working in the root of your local working copy of the repository.
+
+3. **Clone [this repo](https://github.com/jamesandersen/dotnet-on-lambda)** - The rest of the guide will assume you're working in the root of your local working copy of the repository.  A few quick observations about this repository:
+    * **Why Not .NET Core 1.1.x?** - AWS Lambda supports the latest *LTS* version which is 1.0.3 (at present); see [this discussion](https://github.com/aws/aws-lambda-dotnet/issues/36) for more information.
+    * **Why Not Start With `dotnet new -t web`?** - The starter project created by `dotnet new -t web` includes a lot of front end code that is unrelated to a microservice API.  This repo strips down to the most relevant code for the purpose of the guide.
 
 ## Restore & Run
 
@@ -37,7 +40,7 @@ dotnet run -p StarWarsMicroservice
 
 You should see output similar to the following:
 ```
-jandersen-mbp15r:dotnet-on-lambda jandersen$ dotnet run -p StarWarsMicroservice
+bash-3.2$ dotnet run -p StarWarsMicroservice
 Project StarWarsMicroservice (.NETCoreApp,Version=v1.0) will be compiled because expected outputs are missing
 Compiling StarWarsMicroservice for .NETCoreApp,Version=v1.0
 
@@ -62,8 +65,12 @@ Browse to http://localhost:5000/api/starwars/characters/search/skywalker and ver
     {"name":"Anakin Skywalker","url":"http://swapi.co/api/people/11/","eye_color":"blue","birth_year":"41.9BBY"},
     {"name":"Shmi Skywalker","url":"http://swapi.co/api/people/43/","eye_color":"brown","birth_year":"72BBY"}
 ]
+<<<<<<< HEAD
+```
+=======
 ```
 
 ## A Few Notes
 * **Why Not .NET Core 1.1.x?** - AWS Lambda supports the latest *LTS* version which is 1.0.3 (at present); see [this discussion](https://github.com/aws/aws-lambda-dotnet/issues/36) for more information.
 * **Why Not Start With `dotnet new -t web`?** - The starter project created by `dotnet new -t web` includes a lot of front end code that is unrelated to a microservice API.  This repo strips down to the most relevant code for the purpose of the guide.
+>>>>>>> 04b01a409dc5fc4576fa70e2780d26628380839e

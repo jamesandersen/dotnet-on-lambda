@@ -43,8 +43,8 @@ namespace StarWarsMicroservice.Services
 
         public Task<Character> CreateCharacter(Character newCharacter)
         {
-            _logger.LogWarning("{0} not created because this is a fake service :-)", newCharacter.Name);
-            newCharacter.Url = string.Format("http://swapi.co/api/people/{0}/", new Random().Next() + 10000);
+            _logger.LogWarning($"{newCharacter.Name} not created because this is a fake service :-)");
+            newCharacter.Url = $"http://swapi.co/api/people/{new Random().Next() + 10000}/";
             return Task.FromResult(newCharacter);
         }
 
@@ -52,7 +52,7 @@ namespace StarWarsMicroservice.Services
         {
             var assembly = typeof(FakeStarWarsService).GetTypeInfo().Assembly;
             var shortName = assembly.FullName.Substring(0, assembly.FullName.IndexOf(","));
-            var resourceName = string.Format("{0}.Services.{1}", shortName, filename);
+            var resourceName = $"{shortName}.Services.{filename}";
             var names = assembly.GetManifestResourceNames();
 
             return assembly.GetManifestResourceStream(resourceName);
