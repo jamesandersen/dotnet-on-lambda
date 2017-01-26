@@ -18,6 +18,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+serverless-output.yaml
 
 # DNX
 project.lock.json
