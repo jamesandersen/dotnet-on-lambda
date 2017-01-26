@@ -20,6 +20,7 @@ This guide will assume you are already somewhat comfortable with [Git](https://g
 2. **[Install](http://docs.aws.amazon.com/cli/latest/userguide/installing.html) and [Configure](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) the [AWS Command Line Interface](https://aws.amazon.com/cli/)** -  Note that your account should have permissions to create/manage S3 buckets, API Gateway resources and Lambda Functions in order to complete this guide.  Double check that `aws iam get-user` runs successfully.  You should see some output similar to this:
 
     ```
+    bash-3.2$ aws iam get-user
     # This is obviously sanitized a bit...
     USER	arn:aws:iam::999999999999:user/jandersen	2017-01-03T05:17:17Z	2017-01-25T03:11:30Z	/	AAAAAAAAAAAAAAAA	jandersen
     ```
@@ -59,18 +60,10 @@ Application started. Press Ctrl+C to shut down.
 
 ### Test it out
 Browse to http://localhost:5000/api/starwars/characters/search/skywalker and verify that you get some sample JSON
+
 ```
 [
     {"name":"Luke Skywalker","url":"http://swapi.co/api/people/1/","eye_color":"blue","birth_year":"19BBY"},
     {"name":"Anakin Skywalker","url":"http://swapi.co/api/people/11/","eye_color":"blue","birth_year":"41.9BBY"},
     {"name":"Shmi Skywalker","url":"http://swapi.co/api/people/43/","eye_color":"brown","birth_year":"72BBY"}
 ]
-<<<<<<< HEAD
-```
-=======
-```
-
-## A Few Notes
-* **Why Not .NET Core 1.1.x?** - AWS Lambda supports the latest *LTS* version which is 1.0.3 (at present); see [this discussion](https://github.com/aws/aws-lambda-dotnet/issues/36) for more information.
-* **Why Not Start With `dotnet new -t web`?** - The starter project created by `dotnet new -t web` includes a lot of front end code that is unrelated to a microservice API.  This repo strips down to the most relevant code for the purpose of the guide.
->>>>>>> 04b01a409dc5fc4576fa70e2780d26628380839e

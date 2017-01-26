@@ -26,7 +26,7 @@ namespace StarWarsMicroservice.Tests
         {
             _mockStarWarsService.Setup(m => m.GetCharacters(It.IsAny<int>()))
                 .Returns((int limit) => Task.FromResult(
-                    Enumerable.Range(1,12).Select(i => new Character { Name = "Character " + i })
+                    Enumerable.Range(1,limit).Select(i => new Character { Name = "Character " + i })
                 ));
 
             var result = await _swController.GetCharacters(3);
