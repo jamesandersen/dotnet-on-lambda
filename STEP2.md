@@ -22,6 +22,6 @@
         }
     ```
 2. **Run `dotnet restore` to pull down the package from NuGet**
-3. **Add a [`LambdaGateway`](StarWarsMicroservice/LambdaGateway.cs) class to the project** - As noted in the README.md for the project, this class will need to extend from `[APIGatewayProxyFunction](https://github.com/aws/aws-lambda-dotnet/blob/master/Libraries/src/Amazon.Lambda.AspNetCoreServer/APIGatewayProxyFunction.cs)`.  It can go anywhere in the project but take note of the exact namespace as we'll need it in step 3.
+3. **Add a [`LambdaGateway`](StarWarsMicroservice/LambdaGateway.cs) class to the project** - As noted in the README.md for the project, this class will need to extend from [`APIGatewayProxyFunction`](https://github.com/aws/aws-lambda-dotnet/blob/master/Libraries/src/Amazon.Lambda.AspNetCoreServer/APIGatewayProxyFunction.cs).  It can go anywhere in the project but take note of the exact namespace as we'll need it in step 3.
 4. **Run `dotnet build **/project.json` and ensure the project still builds successfully**
     
